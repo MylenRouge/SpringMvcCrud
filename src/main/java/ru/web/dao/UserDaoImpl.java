@@ -17,8 +17,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> index() {
-        TypedQuery<User> query = entityManager.createQuery("SELECT user FROM User user", User.class);
-        return query.getResultList();
+        return entityManager.createQuery("SELECT user FROM User user", User.class).getResultList();
     }
     @Override
     public User show(int id) {
@@ -31,11 +30,11 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Transactional
     public void update(int id, User updatedUser) {
-        User user = show(id);
+        User user = entityManager.merge(updatedUser);
         user.setName(updatedUser.getName());
         user.setSurname(updatedUser.getSurname());
         user.setAge(updatedUser.getAge());
-        entityManager.persist(user);
+        entityManager.flush();
     }
     @Override
     @Transactional

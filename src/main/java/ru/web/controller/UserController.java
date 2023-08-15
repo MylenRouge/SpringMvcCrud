@@ -28,7 +28,7 @@ public class UserController {
     }
 
     @GetMapping("/new")
-    public String newPerson(Model model) {
+    public String newUser(Model model) {
         model.addAttribute("user", new User());
         return "users/new";
     }
@@ -44,19 +44,14 @@ public class UserController {
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("user", userService.show(id));
+    public String edit(@ModelAttribute("user") User user, @PathVariable("id") int id) {
+        userService.update(id, user);
         return "users/edit";
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") User user, BindingResult bindingResult,
-                         @PathVariable("id") int id) {
-        if (bindingResult.hasErrors()) {
-            return "users/edit";
-        }
+    public String update(@ModelAttribute("user") User user, @PathVariable("id") int id) {
         userService.update(id, user);
-//        model.addAttribute("user", userService.show(id));
         return "redirect:/users";
     }
 
