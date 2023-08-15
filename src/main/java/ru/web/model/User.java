@@ -1,16 +1,15 @@
-package spring.model;
+package ru.web.model;
 
-import jakarta.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
+import javax.persistence.*;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "users")
+public class User implements Serializable {
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "name")
     private String name;
@@ -18,17 +17,6 @@ public class User {
     private String surname;
     @Column(name = "age")
     private int age;
-
-    public User() {
-    }
-
-    public User(int id, String name, String surname, int age) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.age = age;
-    }
-
     public int getId() {
         return id;
     }

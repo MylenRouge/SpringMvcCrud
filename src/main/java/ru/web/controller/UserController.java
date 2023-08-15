@@ -1,40 +1,35 @@
-package spring.controller;
+package ru.web.controller;
 
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import spring.model.User;
-import spring.service.UserService;
+import ru.web.model.User;
+import ru.web.service.UserService;
 
 @Controller
 @RequestMapping("/users")
 public class UserController {
 
-    private final UserService userService;
-
     @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    private UserService userService;
 
     @GetMapping()
     public String index(Model model) {
-        model.addAttribute("user", userService.index());
-        return "/users/index";
+        model.addAttribute("users", userService.index());
+        return "users/index";
     }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("user", userService.show(id));
-        return "/users/show";
+        return "users/show";
     }
 
     @GetMapping("/new")
     public String newPerson(Model model) {
         model.addAttribute("user", new User());
-
         return "users/new";
     }
 
@@ -44,7 +39,6 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "users/new";
         }
-
         userService.save(user);
         return "redirect:/users";
     }
@@ -61,14 +55,15 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "users/edit";
         }
-
         userService.update(id, user);
+//        model.addAttribute("user", userService.show(id));
         return "redirect:/users";
     }
 
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") int id) {
+    @PostMapping("/{id}")
+    public String delete(@PathVariable("id") int id, Model model) {
         userService.delete(id);
+        model.addAttribute("userDelete", userService.show(id));
         return "redirect:/users";
     }
 

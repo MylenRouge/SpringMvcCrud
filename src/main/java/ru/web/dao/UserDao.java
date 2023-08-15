@@ -1,6 +1,6 @@
-package spring.dao;
+package ru.web.dao;
 
-import spring.model.User;
+import ru.web.model.User;
 
 import java.util.List;
 
