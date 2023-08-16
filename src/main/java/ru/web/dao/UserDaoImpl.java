@@ -20,16 +20,15 @@ public class UserDaoImpl implements UserDao {
         return entityManager.createQuery("SELECT user FROM User user", User.class).getResultList();
     }
     @Override
-    public User show(int id) {
+    public User showUsers(int id) {
         return entityManager.find(User.class, id);
     }
     @Override
-    public void save(User user) {
+    public void saveUsers(User user) {
         entityManager.persist(user);
     }
     @Override
-    @Transactional
-    public void update(int id, User updatedUser) {
+    public void updateUser(int id, User updatedUser) {
         User user = entityManager.merge(updatedUser);
         user.setName(updatedUser.getName());
         user.setSurname(updatedUser.getSurname());
@@ -37,8 +36,7 @@ public class UserDaoImpl implements UserDao {
         entityManager.flush();
     }
     @Override
-    @Transactional
-    public void delete(int id) {
+    public void deleteUser(int id) {
         User user = entityManager.find(User.class, id);
         entityManager.remove(user);
     }
