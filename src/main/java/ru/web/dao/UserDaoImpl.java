@@ -20,7 +20,7 @@ public class UserDaoImpl implements UserDao {
         return entityManager.createQuery("SELECT user FROM User user", User.class).getResultList();
     }
     @Override
-    public User showUsers(int id) {
+    public User showUsers(Integer id) {
         return entityManager.find(User.class, id);
     }
     @Override
@@ -28,7 +28,7 @@ public class UserDaoImpl implements UserDao {
         entityManager.persist(user);
     }
     @Override
-    public void updateUser(int id, User updatedUser) {
+    public void updateUser(Integer id, User updatedUser) {
         User user = entityManager.merge(updatedUser);
         user.setName(updatedUser.getName());
         user.setSurname(updatedUser.getSurname());
@@ -36,7 +36,7 @@ public class UserDaoImpl implements UserDao {
         entityManager.flush();
     }
     @Override
-    public void deleteUser(int id) {
+    public void deleteUser(Integer id) {
         User user = entityManager.find(User.class, id);
         entityManager.remove(user);
     }
